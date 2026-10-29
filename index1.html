@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayTrack - Employee Payroll System</title>
+
+    <!-- CSS FILE -->
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+
+<!-- ================= LOGIN PAGE ================= -->
+<section id="loginPage" class="login-page">
+    <div class="login-box">
+        <h1>Pay<span>Track</span></h1>
+        <p class="login-subtitle">Employee Payroll System</p>
+
+        <form id="loginForm">
+            <label for="loginRole">Select Portal</label>
+            <select id="loginRole">
+                <option value="employee">Employee Portal</option>
+                <option value="admin">Admin Portal</option>
+            </select>
+
+            <label for="loginUser">Username / Employee ID</label>
+            <input id="loginUser" required placeholder="Enter username or ID">
+
+            <label for="loginPass">Password</label>
+            <input id="loginPass" type="password" required
+                   placeholder="Enter password">
+
+            <button type="submit" class="primary full">Login</button>
+            <p id="loginError" role="alert"></p>
+        </form>
+
+        <div class="demo-info">
+            <b>Demo Admin</b><br>
+            Username: admin<br>
+            Password: admin123
+            <hr>
+            <b>Demo Employee</b><br>
+            Register an employee using Admin Portal first.<br>
+            Employee ID + Password: demo123
+        </div>
+    </div>
+</section>
+
+<!-- ================= ADMIN PORTAL ================= -->
+<div id="adminPortal" class="layout" hidden>
+
+    <aside class="sidebar">
+        <h2>Pay<span>Track</span></h2>
+        <p class="sidebar-sub">ADMIN PORTAL</p>
+
+        <button class="nav active" data-page="dashboard">Dashboard</button>
+        <button class="nav" data-page="register">Employee Registration</button>
+        <button class="nav" data-page="attendance">Attendance</button>
+        <button class="nav" data-page="payroll">Salary Calculation</button>
+        <button class="nav" data-page="payslips">Payslips</button>
+        <button class="nav" data-page="employees">Employee Search</button>
+
+        <button id="adminLogout" class="logout-btn">Logout</button>
+        <p class="sidebar-bottom">Payroll Management System</p>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">ADMIN PORTAL</p>
+                <h2 id="pageTitle">Dashboard</h2>
+            </div>
+            <span class="admin-badge">Admin</span>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page active-page">
+            <h2>Welcome to PayTrack</h2>
+            <p class="muted">Manage employees, attendance and payroll.</p>
+
+            <div class="stats">
+                <div class="stat">
+                    <p>Total Employees</p>
+                    <h2 id="totalEmployees">0</h2>
+                </div>
+                <div class="stat">
+                    <p>Attendance Records</p>
+                    <h2 id="totalAttendance">0</h2>
+                </div>
+                <div class="stat">
+                    <p>Generated Payslips</p>
+                    <h2 id="totalPayslips">0</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>Quick Actions</h3>
+                <div class="actions">
+                    <button data-goto="register">+ Register Employee</button>
+                    <button data-goto="attendance">Mark Attendance</button>
+                    <button data-goto="payroll">Calculate Salary</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>Recent Employees</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th><th>Name</th>
+                                <th>Department</th><th>Designation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentEmployees"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- EMPLOYEE REGISTRATION -->
+        <section id="register" class="page">
+            <div class="panel">
+                <h3>Employee Registration</h3>
+
+                <form id="employeeForm" class="form-grid">
+                    <label>Employee ID
+                        <input id="empId" placeholder="EMP101" required>
+                    </label>
+
+                    <label>Full Name
+                        <input id="empName" required>
+                    </label>
+
+                    <label>Email
+                        <input id="empEmail" type="email" required>
+                    </label>
+
+                    <label>Phone Number
+                        <input id="empPhone" type="tel"
+                               pattern="[0-9]{10}" maxlength="10" required>
+                    </label>
+
+                    <label>Department
+                        <select id="empDept" required>
+                            <option value="">Select Department</option>
+                            <option>HR</option>
+                            <option>IT</option>
+                            <option>Finance</option>
+                            <option>Marketing</option>
+                            <option>Sales</option>
+                            <option>Operations</option>
+                        </select>
+                    </label>
+
+                    <label>Designation
+                        <input id="empRole" placeholder="e.g. Developer" required>
+                    </label>
+
+                    <label>Basic Monthly Salary (₹)
+                        <input id="empSalary" type="number"
+                               min="0" step="0.01" required>
+                    </label>
+
+                    <label>Joining Date
+                        <input id="empJoin" type="date" required>
+                    </label>
+
+                    <button type="submit" class="primary full">
+                        Register Employee
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ATTENDANCE -->
+        <section id="attendance" class="page">
+            <div class="panel">
+                <h3>Attendance & Working Days</h3>
+
+                <form id="attendanceForm" class="form-grid">
+                    <label>Employee
+                        <select id="attEmployee" required></select>
+                    </label>
+
+                    <label>Salary Month
+                        <input id="attMonth" type="month" required>
+                    </label>
+
+                    <label>Working Days
+                        <input id="workingDays" type="number"
+                               min="1" max="31" required>
+                    </label>
+
+                    <label>Days Present
+                        <input id="daysPresent" type="number"
+                               min="0" required>
+                    </label>
+
+                    <label>Paid Leave Days
+                        <input id="paidLeave" type="number"
+                               min="0" value="0" required>
+                    </label>
+
+                    <button type="submit" class="primary full">
+                        Save Attendance
+                    </button>
+                </form>
+
+                <p class="muted">
+                    Present days + paid leave should not exceed working days.
+                </p>
+            </div>
+
+            <div class="panel">
+                <h3>Attendance Records</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee</th><th>Month</th>
+                                <th>Working Days</th><th>Present</th>
+                                <th>Paid Leave</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAYROLL -->
+        <section id="payroll" class="page">
+            <div class="panel">
+                <h3>Salary Calculation</h3>
+
+                <form id="payrollForm" class="form-grid">
+                    <label>Employee
+                        <select id="payEmployee" required></select>
+                    </label>
+
+                    <label>Salary Month
+                        <input id="payMonth" type="month" required>
+                    </label>
+
+                    <label>Allowance (₹)
+                        <input id="allowance" type="number"
+                               min="0" step="0.01" value="0" required>
+                    </label>
+
+                    <label>Other Deductions (₹)
+                        <input id="deduction" type="number"
+                               min="0" step="0.01" value="0" required>
+                    </label>
+
+                    <button type="submit" class="primary full">
+                        Calculate & Generate Payslip
+                    </button>
+                </form>
+
+                <p class="muted">
+                    Demo formula: Payable Basic = Monthly Basic ×
+                    (Present + Paid Leave) ÷ Working Days.
+                </p>
+            </div>
+
+            <div class="panel" id="salaryResult" hidden>
+                <div id="salaryDetails"></div>
+                <button id="printSalary" class="primary">
+                    Print / Save Payslip as PDF
+                </button>
+            </div>
+        </section>
+
+        <!-- PAYSLIPS -->
+        <section id="payslips" class="page">
+            <div class="panel">
+                <h3>Generated Payslips</h3>
+                <input id="slipSearch" class="search"
+                       placeholder="Search employee ID or name">
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee</th><th>Month</th>
+                                <th>Gross Salary</th><th>Deductions</th>
+                                <th>Net Salary</th><th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payslipTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- EMPLOYEE SEARCH -->
+        <section id="employees" class="page">
+            <div class="panel">
+                <h3>Employee Search</h3>
+                <input id="employeeSearch" class="search"
+                       placeholder="Search ID, name, department...">
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th><th>Name</th><th>Department</th>
+                                <th>Designation</th><th>Email</th><th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- ================= EMPLOYEE PORTAL ================= -->
+<div id="userPortal" class="user-layout" hidden>
+    <header class="user-header">
+        <div>
+            <h2>Pay<span>Track</span></h2>
+            <p>EMPLOYEE SELF SERVICE PORTAL</p>
+        </div>
+        <button id="userLogout" class="primary">Logout</button>
+    </header>
+
+    <main class="user-main">
+        <h1>My Employee Portal</h1>
+        <p class="muted">View your profile, attendance and payslips.</p>
+
+        <div class="panel">
+            <h3>My Profile</h3>
+            <div id="myProfile" class="profile-grid"></div>
+        </div>
+
+        <div class="panel">
+            <h3>My Attendance</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th><th>Working Days</th>
+                            <th>Present</th><th>Paid Leave</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myAttendance"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>My Payslips</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th><th>Gross Salary</th>
+                            <th>Deductions</th><th>Net Salary</th><th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myPayslips"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- JAVASCRIPT FILE -->
+<script src="script.js"></script>
+</body>
+</html>
